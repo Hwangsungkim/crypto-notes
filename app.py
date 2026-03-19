@@ -1,5 +1,5 @@
 import streamlit as st
-import data_handler  # 우리가 방금 만든 데이터 모듈을 불러옵니다!
+import data_handler
 
 # 1. 페이지 기본 설정
 st.set_page_config(page_title="Crypto Digital Note", page_icon="📓", layout="wide")
@@ -18,18 +18,47 @@ with st.sidebar:
 st.title("📓 크립토 학습 디지털 공책")
 st.subheader(f"현재 선택된 탭: 📌 {category}")
 
-# 4. 선택된 카테고리에 맞는 데이터 불러와서 화면에 그리기
+# 4. 퀴즈 모드 로직
 if category == "퀴즈 모드 🧠":
-    st.info("퀴즈 모드는 다음 태스크에서 구현됩니다! 🚀")
-else:
-    # data_handler를 통해 가짜 데이터를 가져옵니다.
-    notes = data_handler.get_dummy_notes(category)
+    st.write("### 🎯 오늘의 크립토 퀴즈")
     
-    # 가져온 노트가 있다면 화면에 아코디언(expander) 형태로 예쁘게 펼쳐줍니다.
+    # 데이터 핸들러에서 퀴즈 하나를 가져옵니다.
+    quiz = data_handler.get_quiz_question()
+    st.info(f"**Q. {quiz['question']}**")
+    
+    # 3가지 학습 모드를 탭(Tab)으로 나눕니다.
+    tab1, tab2, tab3 = st.tabs(["💡 플래시카드", "✍️ 주관식", "✅ 객관식"])
+    
+    with tab1:
+        st.write("머릿속으로 정답을 먼저 떠올려 보세요!")
+        if st.button("정답 보기 👀"):
+            st.success(f"정답: {quiz['answer']}")
+            
+    with tab2:
+        user_answer = st.text_input("정답을 입력하세요:")
+        if st.button("제출", key="subjective_btn"):
+            if user_answer == quiz['answer']:
+                st.balloons() # 정답일 때 풍선 애니메이션!
+                st.success("정답입니다! 🎉")
+            elif user_answer:
+                st.error("오답입니다. 다시 시도해 보세요!")
+                
+    with tab3:
+        # 보기들을 라디오 버튼으로 보여줍니다.
+        choice = st.radio("보기에서 정답을 고르세요:", quiz['options'], index=None)
+        if st.button("제출", key="objective_btn"):
+            if choice == quiz['answer']:
+                st.balloons()
+                st.success("정답입니다! 🎉")
+            elif choice:
+                st.error("오답입니다. 다시 시도해 보세요!")
+
+# 5. 일반 노트 로직
+else:
+    notes = data_handler.get_dummy_notes(category)
     if notes:
         for note in notes:
             with st.expander(f"📝 {note['title']}", expanded=True):
                 st.markdown(note['content'])
     else:
-        # 노트가 없는 카테고리일 경우 경고창을 띄웁니다.
         st.warning("아직 작성된 노트가 없습니다. 새로운 내용을 추가해 보세요!")

@@ -12,3 +12,15 @@ def get_dummy_notes(category):
         ]
     
     return []
+import random
+
+# (기존 get_dummy_notes 함수는 이 위에 그대로 둡니다)
+
+def get_quiz_question():
+    # 테스트 통과를 위한 최소한의 가짜 퀴즈 데이터를 반환합니다.
+    # 나중에 객관식을 위해 'options(보기)'도 미리 넣어둡니다.
+    return {
+        "question": "최초의 블록체인 기반 암호화폐는 무엇인가요?",
+        "answer": "비트코인",
+        "options": ["이더리움", "리플", "비트코인", "솔라나"]
+    }
