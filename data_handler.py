@@ -1,3 +1,6 @@
+import random
+import pandas as pd  # 방금 설치한 마법 도구를 불러옵니다!
+
 # data_handler.py
 
 def get_dummy_notes(category):
@@ -24,3 +27,26 @@ def get_quiz_question():
         "answer": "비트코인",
         "options": ["이더리움", "리플", "비트코인", "솔라나"]
     }
+
+def get_real_notes(category):
+    # 테스트 통과를 위한 최소한의 코드 (빈 목록 반환)
+    return []
+
+# 방금 구글 시트에서 복사한 긴 CSV 주소를 아래 따옴표 안에 붙여넣어 주세요!
+SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvG4fd3azUowTuNckcRTGFa_FLje3hw6kx3DWBLnOO2XBA1Cd4JIhviy8TeJQEVIsFJUqlKYJZi1yG/pub?output=csv"
+
+def get_real_notes(category):
+    try:
+        # 마법 도구(pandas)를 이용해 인터넷에 있는 구글 시트 데이터를 1초 만에 읽어옵니다.
+        df = pd.read_csv(SHEET_CSV_URL)
+        
+        # 사용자가 선택한 카테고리와 똑같은 줄만 걸러냅니다.
+        filtered_df = df[df['category'] == category]
+        
+        # 화면에 그리기 좋게 리스트 형태로 변환해서 돌려줍니다. (빈칸은 에러 안 나게 처리)
+        notes = filtered_df.fillna("").to_dict('records')
+        return notes
+        
+    except Exception as e:
+        # 혹시 에러가 나면 화면에 띄우지 않고 빈 목록을 줍니다.
+        return []

@@ -55,7 +55,7 @@ if category == "퀴즈 모드 🧠":
 
 # 5. 일반 노트 로직
 else:
-    notes = data_handler.get_dummy_notes(category)
+    notes = data_handler.get_real_notes(category)
     if notes:
         for note in notes:
             with st.expander(f"📝 {note['title']}", expanded=True):
