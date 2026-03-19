@@ -5,11 +5,23 @@ import data_handler
 st.set_page_config(page_title="Crypto Digital Note", page_icon="📓", layout="wide")
 
 # 2. 좌측 사이드바 구성
+# app.py (수정 부분)
+# app.py 의 사이드바 부분
+
 with st.sidebar:
     st.title("📂 카테고리")
     category = st.radio(
         "학습 주제를 선택하세요:",
-        ["기초 용어", "블록체인 구조", "디파이(DeFi)", "퀴즈 모드 🧠"]
+        [
+            "비트코인: 탄생과 역사",
+            "비트코인: 반감기와 공급",
+            "비트코인: 네트워크 (PoW)",
+            "이더리움: 레이어 1 (L1)",
+            "이더리움: 레이어 2 (L2)",
+            "이더리움: 디앱 (DeFi/DEX/DAO)",
+            "기초 용어",
+            "퀴즈 모드 🧠"
+        ]
     )
     st.markdown("---")
     st.write("나만의 크립토 디지털 공책 v1.0")
