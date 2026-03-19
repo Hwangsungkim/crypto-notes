@@ -8,21 +8,31 @@ st.set_page_config(page_title="Crypto Digital Note", page_icon="📓", layout="w
 # app.py (수정 부분)
 # app.py 의 사이드바 부분
 
+# app.py (사이드바 부분 정밀 수정)
+
 with st.sidebar:
     st.title("📂 카테고리")
-    category = st.radio(
-        "학습 주제를 선택하세요:",
-        [
-            "비트코인: 탄생과 역사",
-            "비트코인: 반감기와 공급",
-            "비트코인: 네트워크 (PoW)",
-            "이더리움: 레이어 1 (L1)",
-            "이더리움: 레이어 2 (L2)",
-            "이더리움: 디앱 (DeFi/DEX/DAO)",
-            "기초 용어",
-            "퀴즈 모드 🧠"
-        ]
+    
+    # 1. 상위 카테고리 선택 (Selectbox)
+    main_category = st.selectbox(
+        "대분류 선택:",
+        ["비트코인 (BTC)", "이더리움 (ETH)", "일반 기초 (Basic)", "학습 도구 (Tools)"]
     )
+    
+    # 2. 상위 선택에 따른 하위 카테고리 지도 (Dictionary)
+    hierarchy = {
+        "비트코인 (BTC)": ["비트코인: 탄생과 역사", "비트코인: 반감기와 공급", "비트코인: 네트워크 (PoW)"],
+        "이더리움 (ETH)": ["이더리움 기초 용어", "이더리움: 레이어 1 (L1)", "이더리움: 레이어 2 (L2)", "이더리움: 디앱 (DeFi/DEX/DAO)"],
+        "일반 기초 (Basic)": ["일반 기초 용어"],
+        "학습 도구 (Tools)": ["퀴즈 모드 🧠"]
+    }
+    
+    # 3. 하위 카테고리 선택 (Radio) - 위 지도에서 리스트를 가져옵니다.
+    category = st.radio(
+        "소분류 선택:",
+        hierarchy[main_category]
+    )
+    
     st.markdown("---")
     st.write("나만의 크립토 디지털 공책 v1.0")
 
